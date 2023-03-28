@@ -1,0 +1,58 @@
+---
+title: "PS7"
+author: "Caden Finley"
+date: "2023-03-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+install.packages("mice")
+install.packages("modelsummary")
+library(mice)
+library(modelsummary)
+
+wages <- read.csv("wages.csv")
+
+# Drop observations where either hgc or tenure are missing
+wages_clean <- na.omit(wages[, c("logwage", "hgc", "tenure", "age", "married", "college")])
+#as df
+df_total <- data.frame(wages_clean)
+# Fit a linear regression model
+model <- lm(logwage ~ hgc + tenure + age + married + college, data = wages_clean)
+
+# Summary table
+modelsummary(model)
+#wages missing at .639 intercept 
+#logwage variable likely to be MAR
+
+
+```
+
+```{r}
+#Question 7
+
+#regression using complete cases
+df_final <- df_total %>% filter(!is.na(logwage))
+
+#mean imputation 
+df_mean <- df_total
+logwage_mean <- mean(df_mean$logwage)
+
+#imputate missing log wages
+df_total <- df_final
+df_total$logwage[is.na(df_mean)]<-predict(df_final,newdata=df)
+
+#mice package
+imp_data <- mice(df_final, m = 4, method = "pmm", seed = 123456)
+mice <- with(imp_data,lm(logwage ~ hgc+college+age+married+tenure))
+
+#Final model summary table
+model2 <- list("Final"=df_final, "Mean"=df_mean, "Predicted"=df_total, "Mice"=df_total)
+modelsummary(model2)
+
+```
+

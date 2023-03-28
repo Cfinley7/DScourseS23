@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{PS7 Finley}
+\author{Caden Finley}
+\date{March 2023}
+
+\begin{document}
+
+\maketitle
+
+\section{Summary Table/Code}
+install.packages("mice")
+install.packages("modelsummary")
+library(mice)
+library(modelsummary)
+
+wages <- read.csv("wages.csv")
+
+Drop observations where either hgc or tenure are missing
+wages_clean <- na.omit(wages[, c("logwage", "hgc", "tenure", "age", "married", "college")])
+As df
+df_total <- data.frame(wages_clean)
+Fit a linear regression model
+model <- lm(logwage ~ hgc + tenure + age + married + college, data = wages_clean)
+
+Summary table
+modelsummary(model)
+wages missing at .639 intercept 
+logwage variable likely to be MAR
+
+
+Question 7
+
+regression using complete cases
+df_final <- df_total %>% filter(!is.na(logwage))
+
+mean imputation 
+df_mean <- df_total
+logwage_mean <- mean(df_mean$logwage)
+
+imputate missing log wages
+df_total <- df_final
+df_total$logwage[is.na(df_mean)]<-predict(df_final,newdata=df)
+
+#mice package
+imp_data <- mice(df_final, m = 4, method = "pmm", seed = 123456)
+mice <- with(imp_data,lm(logwage ~ hgc+college+age+married+tenure))
+
+Final model summary table
+model2 <- list("Final"=df_final, "Mean"=df_mean, "Predicted"=df_total, "Mice"=df_total)
+modelsummary(model2)
+
+\section{Project Update}
+
+Overall, I have not made too much headway on the project. I have ideas and pakcages that I want to implement in my financial analysis like "fArma" and "RMetrics". I would like to use these to analzye time series data or potentially look the change of the fixed-income securities market over the past year. I might want to look into "FREDR" as well for helping and interpreting some of this data. Essentially, I have looked into numerous sources but have not yet come up with something complete for the project yet. This will change in the next couple weeks as I will put more time into this project. 
+
+\end{document}
