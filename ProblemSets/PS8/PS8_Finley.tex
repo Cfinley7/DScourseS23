@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{PS8 Finley}
+\author{Caden Finley}
+\date{April 2023}
+
+\begin{document}
+
+\maketitle
+
+\section{Code}
+library(nloptr)
+set.seed(100)
+
+Dimensions
+N <- 100000
+K <- 10
+
+X matrix with first column of 1's and remaining columns normally distributed
+X <- matrix(rnorm(N * K), ncol = K)
+X[,1] <- 1
+Create epsilon vector with N random numbers distributed
+sigma <- 0.5
+eps <- rnorm(N, mean = 0, sd = sigma)
+
+beta vectors
+beta <- c(1.5, -1, -0.25, 0.75, 3.5, -2, 0.5, 1, 1.25, 2)
+Generate Y as X * beta + epsilon
+Y <- X %*% beta + eps
+
+OLS estimate of beta
+beta_hat <- solve(t(X) %*% X) %*% t(X) %*% Y
+Compare with real beta values
+beta_hat
+beta
+The betas from beta and beta_hat are the same if beta_hat is rounded up.
+
+6/gradient descent 
+
+learning rate and max iterations
+learning_rate <- 0.0000003
+alpha <- learning_rate
+max_iter <- 10000
+
+gradient <- function(x) return(solve(t(X)%*%X) %*% t(X) %*% Y)
+initialize a value to x
+x <- floor(runif(1)*10)
+vector for all xs for all steps
+x.All <- vector("numeric",max_iter)
+gradient descent method to find the minimum
+for(i in 1:max_iter){
+  x <- x - alpha*gradient(x)
+  x.All[i] <- x
+  print(x)
+}
+print(paste("min of f(x) is ", x, sep = ""))
+
+7/nloptr
+
+objfun <- function(beta, y, X) {
+  return (as.vector(-2*t(X)%*%(y-X%*%beta)))
+}
+Gradient objective function
+gradient <- function(beta, y, X) {
+  return ( as.vector(-2*t(X)%*%(y-X%*%beta)) )
+}
+initial values
+beta0 <- runif(dim(X)[2]) 
+
+L-BFGS algorithm
+options <- list("algorithm"="NLOPT_LD_LBFGS","xtol_rel"=1.0e-6,"maxeval"=1e3)
+Optimize
+result <- nloptr(x0 = beta0, eval_f = objfun, y = Y, X = X, eval_grad_f = gradient, opts = options)
+print(result)
+
+Nelder-Mead
+options1 <- list("algorithm"="NLOPT_LN_NELDERMEAD","xtol_rel"=1.0e-6,"maxeval"=1e4)
+beta0 <- runif(dim(X)[2])
+result1 <- nloptr( x0=beta0,eval_f=objfun,eval_grad_f=gradient,opts=options1,Y=Y,X=X)
+print(result1)
+Result should be the same 
+
+8
+gradient <- function(theta,Y,X) {
+  grad <- as.vector(rep(0,length(theta)))
+  beta <- theta[1:(length(theta)-1)]
+  sig <- theta[length(theta)]
+  grad[1:(length(theta)-1)] <- -t(X)%*%(Y - X%*%beta)/(sig^2) grad[length(theta)] <- dim(X)[1]/sig - crossprod(Y-X%*%beta)/(sig
+                                                                                                                            ^3)
+  return ( grad ) }
+
+result <- nloptr(x0 = theta0, eval_f = objfun, eval_grad_f = gradient, 
+                 lb = c(rep(-Inf, K), 0), ub = c(rep(Inf, K), Inf), 
+                 opts = opts, Y = Y, X = X)
+
+9
+est <- lm(Y ~ X-1)
+library(modelsummary)
+modelsummary(est, output = "simplereg.tex")
+
+
+
+
+\end{document}
