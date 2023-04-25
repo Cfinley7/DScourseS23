@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{PS 11}
+\author{Caden Finley}
+\date{April 2023}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This is a rough draft for what my final project will look like. The project is going to involve using various financial packages in R to look at Macro-level data about inflation and the Consumer Price Index. These packages will involve quantmod to look at and visualize financial market data to see trends involving inflation. I will also use an API to scrape some data from the Federal Reserve to get accurate data involving inflation. Once the data is acquired, it will be tested with several functions to see if inflation has a correlation with certain variables. One way of doing this is with conditional distribution using prop.table, addmargins function, and more. There will also be linear regression equation involved to see if the CPI can be predicted by manipulating certain variables that will be properly formatted in the full paper. A literature review containing papers that relate to the topic of inflation will also be shown throughout the project. My own data and findings will be present in the project as well. These will contain tables showing the data I looked at as well as charts to visualize the change in the financial markets. The conclusion or interpretation of this will be expanded upon to see the effects of changing the Escalation to see what it does to the CPI and in turn inflation. Escalation here being specific goods or services that are dependent on inflation, supply and demand, etc. With all of these things combined, the main question I am looking to answer is can machine learning techniques be used to predict inflation trends based on historical data?
+
+\section{Literature Review}
+
+This section contains some of the works I will be referencing that will also be listed in the works cited page. I will discuss some of the ideas in these papers and talk about how they relate to my topic. Some of the papers include topics of the effects on inflation and bias that is seen in it. One paper titled "Forecasting Inflation in a Data-Rich Environment: The Benefits of Machine Learning Methods" discusses how alternative models can be used to more accurately predict inflation than traditional models. 
+
+\section{Data}
+
+The data section will have more comprehensive finds that show the effects of machine learning on measuring inflation. This could be a figure showing what the CPI has is measured at compared to my own testing with R. I could also visualize this with R packages. This will be expanded upon for the final project. I will also include charts that show macro-level effects on financial markets.
+
+\section{Empirical Method}
+
+This section will most likely be an linear regression equation that evaluates the changes between certain variables to measure changes in the inflation rate. This equation will account for certain variables like rate hikes, if the economy is an recession or not, and more. The equation will need to be inputted correctly to have proper formatting in the project where it is in the middle of the page with the correct notation. 
+
+\section{Findings}
+
+Overall the findings will have more information, but for some of the more prominent papers the results were as follows: Baybuza 2018 found that machine learning methods such as Random Forest and Boosting can accurately forecast inflation in Russia. Medeiros 2019 also found that machine learning methods, particularly the Random Forest model, outperform traditional models in forecasting U.S. inflation. Kohlscheen 2022 used a machine learning technique to predict inflation across 20 advanced countries and found that inflation expectations play an important role in inflation outcomes. Overall, these papers suggest that machine learning methods can improve the accuracy of inflation forecasting. 
+
+\section{Conclusions}
+
+The conclusions section will need to be expanded more as more testing is done for the final project. I do not currently know what various machine learning techniques will reveal about predicting and potentially have a more correct inflation rate. This will coincide with the empirical method as well as the different R packages discussed earlier. I am anticipating the results will be positive and it is in fact to predict a more accurate inflation figure using R.
+
+\section{References}
+
+@article{Medeiros2019ForecastingII,
+  title={Forecasting Inflation in a Data-Rich Environment: The Benefits of Machine Learning Methods},
+  author={M. C. Medeiros and Gabriel F. R. Vasconcelos and {\'A}lvaro Veiga and Eduardo Zilberman},
+  journal={Journal of Business \& Economic Statistics},
+  year={2019},
+  volume={39},
+  pages={98 - 119}
+}
+
+@article{Baybuza2018InflationFU,
+  title={Inflation Forecasting Using Machine Learning Methods},
+  author={I. V. Baybuza},
+  journal={Russian Journal of Money and Finance},
+  year={2018}
+}
+
+@article{Aiken1999UsingAN,
+  title={Using a neural network to forecast inflation},
+  author={Milam W. Aiken},
+  journal={Industrial Management and Data Systems},
+  year={1999},
+  volume={99},
+  pages={296-301}
+}
+
+
+\end{document}
